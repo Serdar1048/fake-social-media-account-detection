@@ -62,7 +62,7 @@ def plot_correlation_heatmap(df):
     
     # Plot heatmap
     sns.heatmap(corr, annot=True, fmt=".2f", cmap='coolwarm', linewidths=0.5)
-    plt.title('Feature Correlation Matrix)
+    plt.title('Feature Correlation Matrix')
     plt.tight_layout()
     plt.savefig('assets/correlation_heatmap.png')
     plt.close()
