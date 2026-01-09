@@ -3,7 +3,7 @@ import pandas as pd
 
 """
 pos | Number of total posts that the user has ever posted.
-flw | Number of following
+flg | Number of following
 flr | Number of followers
 bl  | Length (number of characters) of the user's biography
 pic | Value 0 if the user has no profile picture, or 1 if has
