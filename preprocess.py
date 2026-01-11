@@ -22,8 +22,12 @@ def preprocess_data(df):
     # Note: Day 2 EDA showed 'f' and 'r'. Let's assume 'f'=1 (Fake), 'r'=0 (Real)
     df['class'] = df['class'].map({'f': 1, 'r': 0})
     
-    # Separating Features and Target
-    X = df.drop('class', axis=1)
+    # Define features to drop (User Request)
+    user_drop_cols = ['cz', 'erl', 'erc', 'pr', 'fo']
+    print(f"Dropping user-defined columns: {user_drop_cols}")
+    
+    # 2. Split Features and Target
+    X = df.drop(columns=['class'] + user_drop_cols)
     y = df['class']
     
     # 2. Splitting

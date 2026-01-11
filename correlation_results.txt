@@ -1,0 +1,24 @@
+
+Feature Correlations with 'is_fake' (Fake=1):
+
+Feature    | Correlation | Strength
+-----------------------------------
+flg        | 0.3960     | Medium
+cs         | 0.3070     | Medium
+cz         | 0.2042     | Low
+pr         | 0.1041     | Low
+fo         | 0.0386     | VERY LOW (Target for Removal)
+erl        | 0.0100     | VERY LOW (Target for Removal)
+pos        | -0.0208     | VERY LOW (Target for Removal)
+flw        | -0.0219     | VERY LOW (Target for Removal)
+erc        | -0.0267     | VERY LOW (Target for Removal)
+cl         | -0.0727     | VERY LOW (Target for Removal)
+hc         | -0.0944     | VERY LOW (Target for Removal)
+pi         | -0.1558     | Low
+ni         | -0.1615     | Low
+pic        | -0.1697     | Low
+bl         | -0.2541     | Low
+lt         | -0.3202     | Medium
+lin        | -0.3682     | Medium
+
+Suggested features to drop (abs(corr) < 0.1): ['fo', 'erl', 'pos', 'flw', 'erc', 'cl', 'hc']
