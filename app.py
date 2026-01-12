@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import numpy as np
-import pickle
+import joblib 
 
 # Sayfa Yapılandırması
 st.set_page_config(
@@ -10,13 +10,26 @@ st.set_page_config(
     layout="centered"
 )
 
+# --- CSS HACKS ---
+st.markdown("""
+<style>
+/* Input içindeki 'Press Enter to apply' yazısını gizle */
+div[data-testid="InputInstructions"] {
+    display: none;
+}
+/* Textarea boyutlandırmasını kapat (Fixed height + Scroll) */
+textarea, .stTextArea textarea {
+    resize: none !important;
+}
+</style>
+""", unsafe_allow_html=True)
+
 # --- MODELLERİ YÜKLE ---
 @st.cache_resource
 def load_final_model():
-    with open('models/final_model.pkl', 'rb') as f:
-        model = pickle.load(f)
-    with open('models/scaler.pkl', 'rb') as f:
-        scaler = pickle.load(f)
+    # joblib.load sıkıştırılmış dosyaları otomatik algılar
+    model = joblib.load('models/final_model.pkl')
+    scaler = joblib.load('models/scaler.pkl')
     return model, scaler
 
 try:
@@ -36,9 +49,21 @@ if 'analysis_started' not in st.session_state:
 
 # --- GİRİŞ ALANI ---
 
-# 1. Post Sayısı (Dinamik Limit için)
+# 1. Post Sayısı (Manuel Giriş + Buton)
 st.subheader("👤 Temel Bilgiler")
-pos = st.number_input("Toplam Gönderi Sayısı (pos)", min_value=0, value=10, help="Diğer değerlerin üst limitini belirler.")
+
+st.markdown("**Toplam Gönderi Sayısı (pos)**")
+c_pos, c_btn_pos = st.columns([3, 1])
+with c_pos:
+    pos_str = st.text_input("pos_input", value="10", label_visibility="collapsed")
+with c_btn_pos:
+    if st.button("Uygula", key="btn_pos", use_container_width=True):
+        pass
+
+try:
+    pos = int(pos_str)
+except:
+    pos = 10
 
 # 5 Gönderi Kontrolü - Anlık Uyarı
 if pos < 5:
@@ -47,10 +72,35 @@ if pos < 5:
 col1, col2 = st.columns(2)
 
 with col1:
-    flw = st.number_input("Takipçi Sayısı (flw)", min_value=0, value=100)
-    flg = st.number_input("Takip Edilen Sayısı (flg)", min_value=0, value=100)
     
-    bio_text = st.text_input("Biyografi Metni (Kopyala/Yapıştır)", help="Karakter sayısı otomatik hesaplanır.")
+    # Takipçi (Input + Buton)
+    st.markdown("**Takipçi Sayısı (flw)**")
+    c_flw, c_btn_flw = st.columns([3, 1])
+    with c_flw:
+        flw_str = st.text_input("flw_input", value="100", label_visibility="collapsed")
+    with c_btn_flw:
+        st.button("Uygula", key="btn_flw", use_container_width=True)
+        
+    try: flw = int(flw_str)
+    except: flw = 100
+
+    # Takip Edilen (Input + Buton)
+    st.markdown("**Takip Edilen Sayısı (flg)**")
+    c_flg, c_btn_flg = st.columns([3, 1])
+    with c_flg:
+        flg_str = st.text_input("flg_input", value="100", label_visibility="collapsed")
+    with c_btn_flg:
+        st.button("Uygula", key="btn_flg", use_container_width=True)
+        
+    try: flg = int(flg_str)
+    except: flg = 100
+    
+    # Biyografi (Text Area + Buton Altta)
+    st.markdown("**Biyografi Metni**")
+    bio_text = st.text_area("bio_input", height=100, help="Biyografiyi buraya yapıştırın.", label_visibility="collapsed")
+    if st.button("Uygula", key="btn_bio", use_container_width=True):
+        pass
+        
     bl = len(bio_text)
     
     
