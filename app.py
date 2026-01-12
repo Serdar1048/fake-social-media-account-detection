@@ -210,6 +210,7 @@ if st.session_state.analysis_started:
             
         # Final Karar
         prediction = 1 if final_risk_score > 0.50 else 0
+        real_score_percent = (1 - final_risk_score) * 100
         
         # 5. Sonuç Gösterimi (Dinamik)
         st.header("Sonuç Analizi")
@@ -223,10 +224,14 @@ if st.session_state.analysis_started:
                 st.image("https://cdn-icons-png.flaticon.com/512/190/190411.png", width=100)
                 
         with col_res2:
+            # Her durumda Gerçek Kişi Yüzdesini gösteriyoruz
             if prediction == 1:
-                st.error(f"🚨 **SAHTE HESAP RİSKİ** \n\nHibrit Risk Skoru: **%{final_risk_score*100:.1f}**")
+                st.error(f"🚨 **RİSKLİ HESAP TESPİT EDİLDİ**")
+                st.markdown(f"**Gerçek Kullanıcı Olma İhtimali:** %{real_score_percent:.1f}")
+                st.caption(f"(Risk Skoru: %{final_risk_score*100:.1f})")
             else:
-                st.success(f"✅ **GERÇEK HESAP** \n\nGüven Skoru: **%{(1-final_risk_score)*100:.1f}**")
+                st.success(f"✅ **GERÇEK HESAP**")
+                st.markdown(f"**Gerçek Kullanıcı Olma İhtimali:** %{real_score_percent:.1f}")
                 
         # 6. Akıllı Tavsiyeler
         if final_risk_score > 0.10:
