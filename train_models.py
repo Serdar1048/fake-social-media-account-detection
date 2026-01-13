@@ -22,7 +22,7 @@ def train_and_evaluate(X_train, X_val, y_train, y_val):
     models = {
         "Logistic Regression (Baseline)": LogisticRegression(max_iter=1000, random_state=42),
         "Random Forest": RandomForestClassifier(n_estimators=100, random_state=42),
-        "XGBoost": xgb.XGBClassifier(use_label_encoder=False, eval_metric='logloss', random_state=42),
+        "XGBoost": xgb.XGBClassifier(eval_metric='logloss', random_state=42),
         "Neural Network (MLP)": MLPClassifier(hidden_layer_sizes=(64, 32), max_iter=500, random_state=42)
     }
     
@@ -66,16 +66,10 @@ def train_and_evaluate(X_train, X_val, y_train, y_val):
     print("-" * 60)
     return results, best_model
 
-def save_best_model(model):
-    print(f"\nSaving best model: {type(model).__name__}")
-    with open('models/best_model.pkl', 'wb') as f:
-        pickle.dump(model, f)
-    print("Model saved to 'models/best_model.pkl'")
 
 def main():
     X_train, X_val, y_train, y_val = load_data()
     results, best_model = train_and_evaluate(X_train, X_val, y_train, y_val)
-    save_best_model(best_model)
     
     # Save results to CSV for reporting
     results_df = pd.DataFrame(results).drop(columns=['Object'])

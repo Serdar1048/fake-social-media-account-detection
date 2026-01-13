@@ -188,12 +188,12 @@ if st.session_state.analysis_started:
         ni = video_count / pos
         lt = loc_count / pos
         hc = hash_count / pos 
-        pi = 24.0 # Sabit
+
         
-        feature_cols = ['pos', 'flw', 'flg', 'bl', 'pic', 'lin', 'cl', 'ni', 'lt', 'hc', 'cs', 'pi']
+        feature_cols = ['pos', 'flw', 'flg', 'bl', 'pic', 'lin', 'cl', 'ni', 'lt', 'hc', 'cs']
         input_data = pd.DataFrame([{
             'pos': pos, 'flw': flw, 'flg': flg, 'bl': bl, 'pic': pic, 'lin': lin, 'cl': cl,
-            'ni': ni, 'lt': lt, 'hc': hc, 'cs': cs, 'pi': pi
+            'ni': ni, 'lt': lt, 'hc': hc, 'cs': cs
         }])
         
         input_scaled = scaler.transform(input_data[feature_cols])

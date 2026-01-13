@@ -23,7 +23,7 @@ def preprocess_data(df):
     df['class'] = df['class'].map({'f': 1, 'r': 0})
     
     # Define features to drop (User Request)
-    user_drop_cols = ['cz', 'erl', 'erc', 'pr', 'fo']
+    user_drop_cols = ['cz', 'erl', 'erc', 'pr', 'fo', 'pi']
     print(f"Dropping user-defined columns: {user_drop_cols}")
     
     # 2. Split Features and Target
